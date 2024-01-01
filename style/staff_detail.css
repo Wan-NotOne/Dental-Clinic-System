@@ -1,0 +1,21 @@
+* {
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+}
+
+
+.navbar {
+    background-color: #7188DC;
+    height: 10vh;
+}
+
+.image{
+    width: 200px;
+    height: 200px;
+    background-color: red;
+}
+
+table td a{
+    text-align: center;
+}
