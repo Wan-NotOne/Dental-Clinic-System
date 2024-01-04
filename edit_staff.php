@@ -1,3 +1,8 @@
+<?php
+session_start();
+include("include/config.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,6 +26,37 @@
 
 <body>
 
+    <?php
+
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
+    if (isset($_SESSION['UID']) && !empty($_SESSION['UID'])) {
+        if ($_GET['position'] == 'dentist') {
+            $sql = "SELECT * FROM dentist WHERE id='" . $_GET['id'] . "' LIMIT 1";
+        } else {
+            $sql = "SELECT * FROM nurse WHERE id='" . $_GET['id'] . "' LIMIT 1";
+        }
+
+        $result = mysqli_query($conn, $sql);
+
+        if (mysqli_num_rows($result) == 1) {
+            $row = mysqli_fetch_assoc($result);
+
+            $position = $_GET['position'];
+            $ic = $row['ic'];
+            $email = $row['email'];
+            $phone = $row['mobile'];
+            $gender = $row['gender'];
+            $address = $row['address'];
+            $firstName = $row["firstName"];
+            $lastName = $row["lastName"];
+            $photo = $row['photo'];
+            $isAdmin = $row['isAdmin'];
+        }
+    }
+    ?>
+
     <div class="container-fluid navbar mb-5">
         <div class="col-12">
             <h1 class="text-center">Staff Detail</h1>
@@ -29,7 +65,8 @@
 
 
     <div class="container">
-        <form action="">
+        <form action="./include/edit_staff_action.php" method="POST" enctype="multipart/form-data">
+            <input type="text" id="id" name="id" value="<?= $_GET['id'] ?>" hidden>
             <div class="row g-4 mb-5">
                 <div class="col-lg-6 d-flex justify-content-center align-items-center mb-lg-0 mb-4">
                     <div>
@@ -39,8 +76,7 @@
                         </div>
                         <div class="text-center">
                             <small class="my-2 d-inline-block">Max size: 488.28KB</small><br>
-                            <input type="file" name="fileToUpload" id="fileToUpload" accept=".jpg, .jpeg, .png"
-                                class="form-control">
+                            <input type="file" name="fileToUpload" id="fileToUpload" accept=".jpg, .jpeg, .png" class="form-control">
                         </div>
                     </div>
 
@@ -51,25 +87,26 @@
 
                         <div class="col-12 d-flex align-items-center justify-content-between">
                             <label for="firstName" class="me-3">First&nbsp;Name</label>
-                            <input type="text" name="firstName" id="firstName" class="form-control w-100" required>
+
+                            <input type="text" name="firstName" id="firstName" class="form-control w-100" value="<?php echo $firstName ?>" required>
                         </div>
 
                         <div class="col-12 d-flex align-items-center justify-content-between">
                             <label for="lastName" class="me-3">Last&nbsp;Name</label>
-                            <input type="text" name="lastName" id="lastName" class="form-control" required>
+                            <input type="text" name="lastName" id="lastName" class="form-control" value="<?php echo $lastName ?>" required>
                         </div>
 
                         <div class="col-12 d-flex align-items-center justify-content-between">
                             <label for="ic" class="me-3">IC&nbsp;No</label>
-                            <input type="text" name="ic" id="ic" class="form-control" required>
+                            <input type="text" name="ic" id="ic" class="form-control" value="<?php echo $ic ?>" required>
                         </div>
 
                         <div class="col-sm-6 d-flex align-items-center">
                             <label for="gender" class="me-3">Gender</label>
                             <select name="gender" id="gender" class="form-select">
                                 <option selected>Open this select menu</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
+                                <option value="male" <?php echo $gender == 'male' ? "selected" : "" ?>>Male</option>
+                                <option value="female" <?php echo $gender == 'female' ? "selected" : "" ?>>Female</option>
                             </select>
                         </div>
 
@@ -77,33 +114,33 @@
                             <label for="position" class="me-3">Position</label>
                             <select name="position" id="position" class="form-select">
                                 <option selected>Open this select menu</option>
-                                <option value="doctor">Doctor</option>
-                                <option value="nurse">Nurse</option>
+                                <option value="dentist" <?php echo $position == 'dentist' ? "selected" : "" ?>>Dentist</option>
+                                <option value="nurse" <?php echo $position == 'nurse' ? "selected" : "" ?>>Nurse</option>
                             </select>
                         </div>
 
 
                         <div class="col-12 d-flex align-items-center justify-content-between">
                             <label for="email" class="me-3">Email</label>
-                            <input type="email" name="email" id="email" class="form-control" required>
+                            <input type="email" name="email" id="email" class="form-control" value="<?php echo $email ?>" required>
                         </div>
 
                         <div class="col-12 d-flex align-items-center justify-content-between">
                             <label for="phone" class="me-3">Phone&nbsp;Number</label>
-                            <input type="text" name="phone" id="phone" class="form-control" required>
+                            <input type="text" name="phone" id="phone" class="form-control" value="<?php echo $phone ?>" required>
                         </div>
 
                         <div class="col-12">
                             <label for="address" class="mb-3">Address</label>
-                            <input type="text" name="address" id="address" class="form-control" required>
+                            <input type="text" name="address" id="address" class="form-control" value="<?php echo $address ?>" required>
                         </div>
 
-                        <div class="col-sm-6 d-flex align-items-center">
+                        <div class="col-12 d-flex align-items-center">
                             <label for="isAdmin" class="me-3">Admin</label>
                             <select name="isAdmin" id="isAdmin" class="form-select">
                                 <option selected>Open this select menu</option>
-                                <option value="0">No</option>
-                                <option value="1">Yes</option>
+                                <option value="0" <?php echo $isAdmin ? "" : "selected" ?>>No</option>
+                                <option value="1" <?php echo $isAdmin ? "selected" : "" ?>>Yes</option>
                             </select>
                         </div>
                     </div>
@@ -116,7 +153,7 @@
         </form>
 
         <div class="col-12 text-center">
-            <a href="/admin.html" class="btn btn-danger">Back</a>
+            <a href="./admin.php" class="btn btn-danger">Back</a>
         </div>
     </div>
 </body>

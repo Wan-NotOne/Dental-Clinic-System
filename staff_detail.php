@@ -203,7 +203,7 @@ include("include/config.php");
 
             <div class="col-12 text-center">
                 <a href="/edit_staff.html" class="btn btn-primary mb-4">Edit Staff</a><br />
-                <a href="/admin.html" class="btn btn-danger">Back</a>
+                <a href="./admin.php" class="btn btn-danger">Back</a>
             </div>
         </div>
     </div>
