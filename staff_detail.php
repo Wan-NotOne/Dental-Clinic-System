@@ -1,3 +1,8 @@
+<?php
+session_start();
+include("include/config.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,11 +26,44 @@
 
 <body>
 
+    <?php
+
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
+    if (isset($_SESSION['UID']) && !empty($_SESSION['UID'])) {
+        if ($_GET['position'] == 'dentist') {
+            $sql = "SELECT * FROM dentist WHERE id='" . $_GET['id'] . "' LIMIT 1";
+        } else {
+            $sql = "SELECT * FROM nurse WHERE id='" . $_GET['id'] . "' LIMIT 1";
+        }
+
+        $result = mysqli_query($conn, $sql);
+
+        if (mysqli_num_rows($result) == 1) {
+            $row = mysqli_fetch_assoc($result);
+
+            $position = $_GET['position'];
+            $ic = $row['ic'];
+            $email = $row['email'];
+            $phone = $row['mobile'];
+            $gender = $row['gender'];
+            $address = $row['address'];
+            $firstName = $row["firstName"];
+            $lastName = $row["lastName"];
+            $photo = $row['photo'];
+            $isAdmin = $row['isAdmin'];
+        }
+    }
+    ?>
+
     <div class="container-fluid navbar mb-5">
         <div class="col-12">
             <h1 class="text-center">Staff Detail</h1>
         </div>
     </div>
+
+
 
 
     <div class="container">
@@ -37,39 +75,45 @@
             <div class="col-lg-6">
                 <div class="row g-4">
                     <div class="col-sm-6">
-                        First Name: Staff 1
+                        First Name: <?php echo $firstName ?>
                     </div>
 
                     <div class="col-sm-6">
-                        Last Name: Staff 1
+                        Last Name: <?php echo $lastName ?>
                     </div>
 
                     <div class="col-sm-6">
-                        Gender: Male
+                        Gender: <?php echo ucfirst($gender) ?>
                     </div>
 
                     <div class="col-sm-6">
-                        Position: Doctor
+                        Position: <?php echo ucfirst($position) ?>
                     </div>
 
                     <div class="col-sm-6">
-                        Email: example@gmail.com
-                    </div>
-                    
-                    <div class="col-sm-6">
-                        Phone Number: 012-3456789
+                        Email: <?php echo $email ?>
                     </div>
 
                     <div class="col-sm-6">
-                        IC No: 123456-78-01010
+                        Phone Number: <?php echo $phone ?>
                     </div>
 
                     <div class="col-sm-6">
-                        Admin: Yes
+                        IC No: <?php echo $ic ?>
+                    </div>
+
+                    <div class="col-sm-6">
+                        Admin: <?php
+                                if ($isAdmin) {
+                                    echo "Yes";
+                                } else {
+                                    echo "No";
+                                }
+                                ?>
                     </div>
 
                     <div class="col-12">
-                        Address: 4503 Fowler Avenue, Tucker, Georgia
+                        Address: <?php echo $address ?>
                     </div>
                 </div>
             </div>

@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstName = mysqli_real_escape_string($conn, $_POST["firstName"]);
     $lastName = mysqli_real_escape_string($conn, $_POST["lastName"]);
     $gender = mysqli_real_escape_string($conn, $_POST["gender"]);
-    $phone = mysqli_real_escape_string($conn, $_POST["phone"]);
+    $phone = $_POST["phone"];
     $ic = mysqli_real_escape_string($conn, $_POST["ic"]);
     $email = mysqli_real_escape_string($conn, $_POST["email"]);
     $position = mysqli_real_escape_string($conn, $_POST["position"]);
