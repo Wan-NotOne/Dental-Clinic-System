@@ -1,0 +1,35 @@
+.navbar {
+  background-color: #7188DC;
+  height: 10vh;
+}
+
+.review .card {
+  border: none;
+  background-color: #b6e4fb;
+}
+
+.review .card-footer {
+  background-color: transparent;
+  border: none;
+}
+
+.review .review-text {
+  font-size: 30px;
+  color: #3a5352;
+}
+
+.review .round-image {
+  width: 50px;
+  height: 50px;
+  background-color: red;
+  border-radius: 30px;
+}
+
+.review .name {
+  font-weight: 500;
+}
+
+.review .patient {
+  color: #828282;
+  font-weight: 300;
+}
