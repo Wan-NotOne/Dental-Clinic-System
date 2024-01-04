@@ -1,3 +1,8 @@
+<?php
+session_start();
+include("include/config.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,6 +28,20 @@
 
 <body>
 
+    <?php
+
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
+    if (isset($_SESSION['UID']) && !empty($_SESSION['UID'])) {
+        $sqlDentist = $sql = "SELECT * FROM dentist";
+        $resultDentist = mysqli_query($conn, $sql);
+        $sqlNurse = $sql = "SELECT * FROM nurse";
+        $resultNurse = mysqli_query($conn, $sql);
+    }
+    ?>
+
+
     <div class="container-fluid navbar mb-5">
         <div class="col-12">
             <h1 class="text-center">Admin</h1>
@@ -35,78 +54,56 @@
         <table class="table table-bordered mb-5">
             <thead>
                 <tr>
+
+                    <th scope="col" class="text-center">No</th>
                     <th scope="col" class="text-center w-40">Name</th>
                     <th scope="col" class="text-center w-40">Position</th>
                     <th scope="col" class="text-center w-20">Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Staff 1</td>
-                    <td>Doctor</td>
-                    <td class="text-center">
-                        <a href="./edit_staff.html">Edit</a>
-                        &nbsp;&nbsp;
-                        <a href="./staff_detail.html">View</a>
-                        &nbsp;&nbsp;
-                        <a href="#">Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Staff 2</td>
-                    <td>Doctor</td>
-                    <td class="text-center">
-                        <a href="#">Edit</a>
-                        &nbsp;&nbsp;
-                        <a href="#">View</a>
-                        &nbsp;&nbsp;
-                        <a href="#">Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Staff 3</td>
-                    <td>Doctor</td>
-                    <td class="text-center">
-                        <a href="#">Edit</a>
-                        &nbsp;&nbsp;
-                        <a href="#">View</a>
-                        &nbsp;&nbsp;
-                        <a href="#">Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Staff 4</td>
-                    <td>Doctor</td>
-                    <td class="text-center">
-                        <a href="#">Edit</a>
-                        &nbsp;&nbsp;
-                        <a href="#">View</a>
-                        &nbsp;&nbsp;
-                        <a href="#">Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Staff 5</td>
-                    <td>Doctor</td>
-                    <td class="text-center">
-                        <a href="#">Edit</a>
-                        &nbsp;&nbsp;
-                        <a href="#">View</a>
-                        &nbsp;&nbsp;
-                        <a href="#">Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Staff 6</td>
-                    <td>Doctor</td>
-                    <td class="text-center">
-                        <a href="#">Edit</a>
-                        &nbsp;&nbsp;
-                        <a href="#">View</a>
-                        &nbsp;&nbsp;
-                        <a href="#">Delete</a>
-                    </td>
-                </tr>˝
+                <?php
+                $numRow = 1;
+                if (mysqli_num_rows($resultDentist) > 0) {
+                    while ($row = mysqli_fetch_array($resultDentist)) {
+                        echo "<tr>";
+                        echo "<td>$numRow</td>";
+
+                        echo "<td>" . $row["firstName"] . " " . $row["lastName"] . "</td>";
+                        echo "<td>Dentist</td>";
+
+                        echo '<td class="text-center">';
+                        echo '<a href="edit_staff.php?id=' . $row['id'] . '&position=dentist">Edit</a>';
+                        echo '&nbsp;&nbsp;';
+                        echo '<a href="staff_detail.php?id=' . $row['id'] . '&position=dentist">View</a>';
+                        echo '&nbsp;&nbsp;';
+                        echo '<a href="./include/delete_staff_action.php?id='.$row['id'].'&position=dentist" class="text-danger">Delete</a>';
+                        echo '</td>';
+                        echo '</tr>';
+                        $numRow = $numRow + 1;
+                    }
+                }
+                if (mysqli_num_rows($resultNurse) > 0) {
+                    while ($row = mysqli_fetch_array($resultNurse)) {
+                        echo "<tr>";
+                        echo "<td>$numRow</td>";
+                        echo "<td>" . $row["firstName"] . " " . $row["lastName"] . "</td>";
+                        echo "<td>Nurse</td>";
+                        echo '<td class="text-center">';
+                        echo '<a href="edit_staff.php?id=' . $row['id'] . '&position=nurse">Edit</a>';
+                        echo '&nbsp;&nbsp;';
+                        echo '<a href="staff_detail.php?id=' . $row['id'] . '&position=nurse">View</a>';
+                        echo '&nbsp;&nbsp;';
+                        echo '<a href="./include/delete_staff_action.php?id='.$row['id'].'&position=nurse" class="text-danger">Delete</a>';
+                        echo '</td>';
+                        echo '</tr>';
+                        $numRow = $numRow + 1;
+                    }
+                }
+                if ($numRow == 1) {
+                    echo '<tr><td colspan="6">0 results</td></tr>';
+                }
+                ?>
             </tbody>
         </table>
 
