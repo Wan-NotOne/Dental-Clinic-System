@@ -77,7 +77,7 @@ include("include/config.php");
                         echo '&nbsp;&nbsp;';
                         echo '<a href="staff_detail.php?id=' . $row['id'] . '&position=dentist">View</a>';
                         echo '&nbsp;&nbsp;';
-                        echo '<a href="./include/delete_staff_action.php?id='.$row['id'].'&position=dentist" class="text-danger">Delete</a>';
+                        echo '<a href="./include/delete_staff_action.php?id='.$row['id'].'&position=dentist" class="text-danger" onClick="return confirm(\'Delete?\');">Delete</a>';
                         echo '</td>';
                         echo '</tr>';
                         $numRow = $numRow + 1;
@@ -94,7 +94,7 @@ include("include/config.php");
                         echo '&nbsp;&nbsp;';
                         echo '<a href="staff_detail.php?id=' . $row['id'] . '&position=nurse">View</a>';
                         echo '&nbsp;&nbsp;';
-                        echo '<a href="./include/delete_staff_action.php?id='.$row['id'].'&position=nurse" class="text-danger">Delete</a>';
+                        echo '<a href="./include/delete_staff_action.php?id='.$row['id'].'&position=nurse" class="text-danger" onClick="return confirm(\'Delete?\');">Delete</a>';
                         echo '</td>';
                         echo '</tr>';
                         $numRow = $numRow + 1;
@@ -108,13 +108,8 @@ include("include/config.php");
         </table>
 
         <div class="col-12 text-center">
-            <a href="./add_staff.html" class="btn btn-primary">Add Staff</a>
+            <a href="./add_staff.php" class="btn btn-primary">Add Staff</a>
         </div>
-
-
-
     </div>
-
 </body>
-
 </html>

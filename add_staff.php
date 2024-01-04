@@ -126,7 +126,7 @@
         </form>
 
         <div class="col-12 text-center">
-            <a href="./staff.php" class="btn btn-danger">Back</a>
+            <a href="./admin.php" class="btn btn-danger">Back</a>
         </div>
     </div>
 </body>
