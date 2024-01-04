@@ -67,9 +67,15 @@ include("include/config.php");
 
 
     <div class="container">
-        <div class="row g-4 mb-5">
-            <div class="col-lg-6 d-flex justify-content-center align-items-center mb-lg-0 mb-4">
-                <div class="image"></div>
+        <div class="row g-4 mb-5 justify-content-center align-items-center">
+            <div class="col-lg-6 col-7 d-flex justify-content-center align-items-center mb-lg-0 mb-4">
+                <?php
+                if ($photo != "")
+                    echo "<img src=\"uploads/" . $row['photo'] . "\" alt=\"profile picture\" class=\"img-thumbnail mb-3\">";
+                else
+                    echo '<img src="./image/anonymous.png" alt="profile picture" class="img-thumbnail mb-3" />';
+
+                ?>
             </div>
 
             <div class="col-lg-6">
@@ -203,7 +209,7 @@ include("include/config.php");
 
             <div class="col-12 text-center">
                 <a href="/edit_staff.html" class="btn btn-primary mb-4">Edit Staff</a><br />
-                <a href="./admin.php" class="btn btn-danger">Back</a>
+                <a href="./admin.php" class="btn btn-danger mb-3">Back</a>
             </div>
         </div>
     </div>

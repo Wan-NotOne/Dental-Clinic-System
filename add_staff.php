@@ -44,6 +44,7 @@
                             <input type="file" name="fileToUpload" id="fileToUpload" accept=".jpg, .jpeg, .png" class="form-control">
                         </div>
                     </div>
+
                 </div>
 
                 <div class="col-lg-6">

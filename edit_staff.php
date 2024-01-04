@@ -159,7 +159,7 @@ include("include/config.php");
     </form>
 
     <div class="col-12 text-center">
-        <a href="./admin.php" class="btn btn-danger">Back</a>
+        <a href="./admin.php" class="btn btn-danger mb-3">Back</a>
     </div>
     </div>
 </body>
