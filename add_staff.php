@@ -34,9 +34,11 @@
                 <div class="col-lg-6 d-flex justify-content-center align-items-center mb-lg-0 mb-4">
                     <div>
 
-                        <div class="image">
+                        <!-- <div class="image">
 
-                        </div>
+                        </div> -->
+                        <img src="./image/anonymous.png" alt="" style="width: 300px;height: 300px;">
+                        <!-- <img src="./image/anonymous.png" alt="" class="img-thumbnail"> -->
                         <div class="text-center">
                             <small class="my-2 d-inline-block">Max size: 488.28KB</small><br>
                             <input type="file" name="fileToUpload" id="fileToUpload" accept=".jpg, .jpeg, .png" class="form-control">

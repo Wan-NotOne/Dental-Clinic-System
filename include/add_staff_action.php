@@ -5,7 +5,7 @@ include("config.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$target_dir = "./../uploads/";
+$target_dir = "../uploads/";
 
 $target_file = "";
 $uploadOk = 0;
@@ -15,14 +15,14 @@ $uploadfileName = "";
 $firstName = "";
 $lastName = "";
 $pwdHash = "";
-
+$exist = "";
 //STEP 1: Form data handling using mysqli_real_escape_string function to 
 // escape special characters for use in an SQL query,
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstName = mysqli_real_escape_string($conn, $_POST["firstName"]);
     $lastName = mysqli_real_escape_string($conn, $_POST["lastName"]);
     $gender = mysqli_real_escape_string($conn, $_POST["gender"]);
-    $phone = mysqli_real_escape_string($conn, $_POST["phone"]);
+    $phone = $_POST["phone"];
     $ic = mysqli_real_escape_string($conn, $_POST["ic"]);
     $email = mysqli_real_escape_string($conn, $_POST["email"]);
     $position = mysqli_real_escape_string($conn, $_POST["position"]);
@@ -48,6 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($result) == 1) {
+            $exist = true;
             $message = "Error: Dentist exist, please register a new dentist";
             include("./add_staff_message.php");
         }
@@ -56,13 +57,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($result) == 1) {
+            $exist = true;
             $message = "Error: Nurse exist, please register a new nurse";
             include("./add_staff_message.php");
         }
     }
 
     // Check if there is an image to be uploaded
-    if (isset($_FILES["fileToUpload"]) && $_FILES["fileToUpload"]["error"] == UPLOAD_ERR_OK) {
+    if (isset($_FILES["fileToUpload"]) && $_FILES["fileToUpload"]["error"] == UPLOAD_ERR_OK && $exist == false) {
 
         $filetmp = $_FILES["fileToUpload"];
         $uploadfileName = $filetmp["name"];
@@ -97,18 +99,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Check if uploadOk==1 and continue
         if ($uploadfileName != "" && $uploadOk == 1) {
 
-            if ($row['position'] == "dentist") {
+            if ($_POST['position'] == "dentist") {
                 $sql = "INSERT INTO dentist(ic,email,mobile,gender,address,password,firstName,lastName,photo,isAdmin) VALUES ('$ic','$email',$phone,'$gender','$address','$pwdHash','$firstName','$lastName','$uploadfileName','$isAdmin')";
-            } else if ($row['position'] == 'nurse') {
+            } else if ($_POST['position'] == 'nurse') {
                 $sql = "INSERT INTO nurse(ic,email,mobile,gender,address,password,firstName,lastName,photo,isAdmin) VALUES ('$ic','$email',$phone,'$gender','$address','$pwdHash','$firstName','$lastName','$uploadfileName','$isAdmin')";
             }
             $status = update_DbTable($conn, $sql);
 
             if ($status) {
-                if (move_uploaded_file(
-                    $_FILES["fileToUpload"]["tmp_name"],
-                    $target_file
-                )) {
+                if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
                     $message = "Form data updated successfully";
                     include("./add_staff_message.php");
                 } else {
@@ -122,7 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     // There is no image to be uploaded so save the record
-    else {
+    else if ($exist == false) {
         // $sql = "UPDATE Profile SET name='$name',email='$email',program='$program',mentorName='$mentorName',motto='$motto' WHERE matricNo='$matricNo'";
         if ($_POST['position'] == "dentist") {
             $sql = "INSERT INTO dentist(ic,email,mobile,gender,address,password,firstName,lastName,isAdmin) VALUES ('$ic','$email',$phone,'$gender','$address','$pwdHash','$firstName','$lastName','$isAdmin')";

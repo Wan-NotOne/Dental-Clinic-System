@@ -67,20 +67,25 @@ include("include/config.php");
     <div class="container">
         <form action="./include/edit_staff_action.php" method="POST" enctype="multipart/form-data">
             <input type="text" id="id" name="id" value="<?= $_GET['id'] ?>" hidden>
-            <div class="row g-4 mb-5">
-                <div class="col-lg-6 d-flex justify-content-center align-items-center mb-lg-0 mb-4">
+            <div class="row g-4 mb-5 justify-content-center">
+                <div class="col-lg-6 col-7 d-flex justify-content-center align-items-center mb-lg-0 mb-4">
                     <div>
+                        <?php
+                        if ($photo != "")
+                            echo "<img src=\"uploads/" . $row['photo'] . "\" alt=\"profile picture\" class=\"img-thumbnail mb-3\">";
+                        else
+                            echo '<img src="./image/anonymous.png" alt="profile picture" class="img-thumbnail mb-3" />';
 
-                        <div class="image">
+                        ?>
+                        <!-- <img src="./image/profile.jpg" alt=""> -->
 
-                        </div>
                         <div class="text-center">
                             <small class="my-2 d-inline-block">Max size: 488.28KB</small><br>
                             <input type="file" name="fileToUpload" id="fileToUpload" accept=".jpg, .jpeg, .png" class="form-control">
                         </div>
                     </div>
-
                 </div>
+
 
                 <div class="col-lg-6">
                     <div class="row g-4">
@@ -146,15 +151,16 @@ include("include/config.php");
                     </div>
                 </div>
             </div>
+    </div>
 
-            <div class="col-12 text-center mb-5">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </form>
+    <div class="col-12 text-center mb-5">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+    </form>
 
-        <div class="col-12 text-center">
-            <a href="./admin.php" class="btn btn-danger">Back</a>
-        </div>
+    <div class="col-12 text-center">
+        <a href="./admin.php" class="btn btn-danger">Back</a>
+    </div>
     </div>
 </body>
 

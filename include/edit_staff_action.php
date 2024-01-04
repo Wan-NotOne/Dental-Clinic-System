@@ -1,38 +1,43 @@
 <?php
-
 session_start();
 include("config.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$target_dir = "./../uploads/";
+// Variables
+$id = "";
+$firstName = "";
+$lastName = "";
+$gender = "";
+$phone = "";
+$ic = "";
+$email = "";
+$position = "";
+$address = "";
+$isAdmin;
+$photo = "";
 
+//for upload
+$target_dir = "./../uploads/";
 $target_file = "";
 $uploadOk = 0;
 $imageFileType = "";
 $uploadfileName = "";
 
-$firstName = "";
-$lastName = "";
-
-//STEP 1: Form data handling using mysqli_real_escape_string function to 
-// escape special characters for use in an SQL query,
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST["id"];
-    $firstName = mysqli_real_escape_string($conn, $_POST["firstName"]);
-    $lastName = mysqli_real_escape_string($conn, $_POST["lastName"]);
-    $gender = mysqli_real_escape_string($conn, $_POST["gender"]);
-    $phone = mysqli_real_escape_string($conn, $_POST["phone"]);
-    $ic = mysqli_real_escape_string($conn, $_POST["ic"]);
-    $email = mysqli_real_escape_string($conn, $_POST["email"]);
-    $position = mysqli_real_escape_string($conn, $_POST["position"]);
-    $address = mysqli_real_escape_string($conn, $_POST["address"]);
-    $isAdmin = mysqli_real_escape_string($conn, $_POST["isAdmin"]);
-
+    $firstName = $_POST["firstName"];
+    $lastName = $_POST["lastName"];
+    $gender = $_POST["gender"];
+    $phone = $_POST["phone"];
+    $ic = $_POST["ic"];
+    $email = $_POST["email"];
+    $position = $_POST["position"];
+    $address = $_POST["address"];
+    $isAdmin = $_POST["isAdmin"];
 
     // Check if there is an image to be uploaded
     if (isset($_FILES["fileToUpload"]) && $_FILES["fileToUpload"]["error"] == UPLOAD_ERR_OK) {
-
         $filetmp = $_FILES["fileToUpload"];
         $uploadfileName = $filetmp["name"];
         $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -66,22 +71,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Check if uploadOk==1 and continue
         if ($uploadfileName != "" && $uploadOk == 1) {
 
-            if ($row['position'] == "dentist") {
+            if ($_POST['position'] == "dentist") {
                 $sql = "UPDATE dentist SET ic='$ic',email='$email',mobile='$phone',address='$address',firstName='$firstName',lastName='$lastName',photo='$uploadfileName',isAdmin='$isAdmin' WHERE id='$id' ";
-            } else if ($row['position'] == 'nurse') {
+            } else if ($_POST['position'] == 'nurse') {
                 $sql = "UPDATE nurse SET ic='$ic',email='$email',mobile='$phone',address='$address',firstName='$firstName',lastName='$lastName',photo='$uploadfileName',isAdmin='$isAdmin' WHERE id='$id' ";
             }
+
             $status = update_DbTable($conn, $sql);
 
             if ($status) {
-                if (move_uploaded_file(
-                    $_FILES["fileToUpload"]["tmp_name"],
-                    $target_file
-                )) {
-                    $message = "Success Edit Staff $firstName $lastName";
-                    include("./add_staff_message.php");
+                if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                    $message = "Form data and file updated successfully";
+                    include("./edit_staff_message.php");
                 } else {
-                    $message = "Sorry, there was an error uploding your file";
+                    $message = "Sorry, there was an error uploding your file $target_file";
                     include("./edit_staff_message.php");
                 }
             } else {
@@ -89,10 +92,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 include("./edit_staff_message.php");
             }
         }
-    }
-    // There is no image to be uploaded so save the record
+    }   // There is no image to be uploaded so save the record
     else {
-        // $sql = "UPDATE Profile SET name='$name',email='$email',program='$program',mentorName='$mentorName',motto='$motto' WHERE matricNo='$matricNo'";
         if ($_POST['position'] == "dentist") {
             $sql = "UPDATE dentist SET ic='$ic',email='$email',mobile='$phone',address='$address',firstName='$firstName',lastName='$lastName',isAdmin='$isAdmin' WHERE id='$id' ";
         } else if ($_POST['position']) {
@@ -102,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $status = update_DbTable($conn, $sql);
 
         if ($status) {
-            $message = "Success Edit Staff $firstName $lastName";
+            $message = "Form data updated successfully";
             include("./edit_staff_message.php");
         } else {
             $message = "Sorry, there was an error uploading your data";
@@ -123,3 +124,5 @@ function update_DbTable($conn, $sql)
         return false;
     }
 }
+
+?>
