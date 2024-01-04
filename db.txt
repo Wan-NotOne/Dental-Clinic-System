@@ -19,7 +19,8 @@ CREATE TABLE dentist (
     address TEXT,
     password VARCHAR(255),
     firstName VARCHAR(255),
-    lastName VARCHAR(255)
+    lastName VARCHAR(255),
+    isAdmin bool
 )
 
 CREATE TABLE nurse (
@@ -32,4 +33,9 @@ CREATE TABLE nurse (
     password VARCHAR(255),
     firstName VARCHAR(255),
     lastName VARCHAR(255)
+    isAdmin bool
+)
+
+CREATE Table Admin(
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,  
 )
