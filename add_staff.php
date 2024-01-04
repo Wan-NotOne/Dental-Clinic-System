@@ -30,21 +30,20 @@
 
     <div class="container">
         <form action="./include/add_staff_action.php" method="POST" enctype="multipart/form-data">
-            <div class="row g-4 mb-5">
-                <div class="col-lg-6 d-flex justify-content-center align-items-center mb-lg-0 mb-4">
+            <div class="row g-4 mb-5 justify-content-center">
+                <div class="col-lg-6 col-7 d-flex justify-content-center align-items-center mb-lg-0 mb-4">
                     <div>
 
                         <!-- <div class="image">
 
                         </div> -->
-                        <img src="./image/anonymous.png" alt="" style="width: 300px;height: 300px;">
+                        <img src="./image/anonymous.png" alt="profile picture" class="img-thumbnail">
                         <!-- <img src="./image/anonymous.png" alt="" class="img-thumbnail"> -->
                         <div class="text-center">
                             <small class="my-2 d-inline-block">Max size: 488.28KB</small><br>
                             <input type="file" name="fileToUpload" id="fileToUpload" accept=".jpg, .jpeg, .png" class="form-control">
                         </div>
                     </div>
-
                 </div>
 
                 <div class="col-lg-6">
