@@ -29,7 +29,7 @@
                 <h1 class="text-center mb-5">Staff Log In</h1>
 
 
-                <form action="" class="h-100 d-flex align-items-center">
+                <form action="./include/staff_login_actio.php" method="POST" class="h-100 d-flex align-items-center">
                     <div class="col-12">
 
                         <div class="col-21 mb-5">

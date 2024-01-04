@@ -68,9 +68,6 @@
                         Admin: Yes
                     </div>
 
-
-
-
                     <div class="col-12">
                         Address: 4503 Fowler Avenue, Tucker, Georgia
                     </div>
