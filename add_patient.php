@@ -29,14 +29,13 @@
 
 
     <div class="container">
-        <form action="">
-            <div class="row g-4 mb-5">
-                <div class="col-lg-6 d-flex justify-content-center align-items-center mb-lg-0 mb-4">
+        <form action="./include/add_patient_action.php" method="POST" enctype="multipart/form-data">
+            <div class="row g-4 mb-5 justify-content-center align-items-center">
+                <div class="col-lg-6 col-7 d-flex justify-content-center align-items-center mb-lg-0 mb-4">
                     <div>
+                        <img src="./image/anonymous.png" alt="profile picture" class="img-thumbnail">
 
-                        <div class="image">
-
-                        </div>
+                      
                         <div class="text-center">
                             <small class="my-2 d-inline-block">Max size: 488.28KB</small><br>
                             <input type="file" name="fileToUpload" id="fileToUpload" accept=".jpg, .jpeg, .png"
@@ -74,16 +73,6 @@
                             </select>
                         </div>
 
-                        <div class="col-sm-6 d-flex align-items-center">
-                            <label for="position" class="me-3">Position</label>
-                            <select name="position" id="position" class="form-select">
-                                <option selected>Open this select menu</option>
-                                <option value="doctor">Doctor</option>
-                                <option value="nurse">Nurse</option>
-                            </select>
-                        </div>
-
-
                         <div class="col-12 d-flex align-items-center justify-content-between">
                             <label for="email" class="me-3">Email</label>
                             <input type="email" name="email" id="email" class="form-control" required>
@@ -97,7 +86,6 @@
                         <div class="col-12">
                             <label for="address" class="mb-3">Address</label>
                             <input type="text" name="address" id="address" class="form-control" required>
-
                         </div>
                     </div>
                 </div>
@@ -109,7 +97,7 @@
         </form>
 
         <div class="col-12 text-center">
-            <a href="/staff.html" class="btn btn-danger">Back</a>
+            <a href="./staff.php" class="btn btn-danger">Back</a>
         </div>
     </div>
 </body>

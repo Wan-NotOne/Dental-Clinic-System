@@ -25,43 +25,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phone = $_POST["phone"];
     $ic = $_POST["ic"];
     $email = mysqli_real_escape_string($conn, $_POST["email"]);
-    $position = mysqli_real_escape_string($conn, $_POST["position"]);
     $address = mysqli_real_escape_string($conn, $_POST["address"]);
-    $password = mysqli_real_escape_string($conn, $_POST["password"]);
-    $isAdmin = mysqli_real_escape_string($conn, $_POST["isAdmin"]);
-    $confirmPassword = mysqli_real_escape_string($conn, $_POST["confirmPassword"]);
 
+    $sql = "SELECT * FROM patient  WHERE ic='$ic' LIMIT 1";
+    $result = mysqli_query($conn, $sql);
 
-
-    // Validate pwd and confirmPwd
-    if ($password != $confirmPassword) {
-        $message = "Password and confirm password do not match";
-        include("./add_staff_message.php");
-    } else {
-        // Hash the password
-        $pwdHash = trim(password_hash($_POST['password'], PASSWORD_DEFAULT));
+    if (mysqli_num_rows($result) == 1) {
+        $exist = true;
+        $message = "Error: Dentist exist, please register a new dentist";
+        include("./add_patient_message.php");
     }
 
-    //STEP 2: Check if staff already exist
-    if ($_POST['position'] == "dentist") {
-        $sql = "SELECT * FROM dentist  WHERE ic='$ic' LIMIT 1";
-        $result = mysqli_query($conn, $sql);
-
-        if (mysqli_num_rows($result) == 1) {
-            $exist = true;
-            $message = "Error: Dentist exist, please register a new dentist";
-            include("./add_staff_message.php");
-        }
-    } else if ($_POST['position'] == 'nurse') {
-        $sql = "SELECT * FROM nurse  WHERE ic='$ic' LIMIT 1";
-        $result = mysqli_query($conn, $sql);
-
-        if (mysqli_num_rows($result) == 1) {
-            $exist = true;
-            $message = "Error: Nurse exist, please register a new nurse";
-            include("./add_staff_message.php");
-        }
-    }
 
     // Check if there is an image to be uploaded
     if (isset($_FILES["fileToUpload"]) && $_FILES["fileToUpload"]["error"] == UPLOAD_ERR_OK && $exist == false) {
@@ -76,14 +50,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (file_exists($target_file)) {
             $message = "Sorry, image file $uploadfileName already exists";
             $uploadOk = 0;
-            include("./add_staff_message.php");
+            include("./add_patient_message.php");
         }
 
         // Check file size <= 488.28KB or 500000 bytes
         if ($_FILES["fileToUpload"]["size"] > 500000) {
             $message = "Sorry, your file is too large. Try resizing your image.";
             $uploadOk = 0;
-            include("./add_staff_message.php");
+            include("./add_patient_message.php");
         }
 
         // Allow only these file formats
@@ -93,50 +67,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ) {
             $message = "Sorry, only JPG, JPEG, PNG & GIF files are allowed";
             $uploadOk = 0;
-            include("./add_staff_message.php");
+            include("./add_patient_message.php");
         }
 
         // Check if uploadOk==1 and continue
         if ($uploadfileName != "" && $uploadOk == 1) {
 
-            if ($_POST['position'] == "dentist") {
-                $sql = "INSERT INTO dentist(ic,email,mobile,gender,address,password,firstName,lastName,photo,isAdmin) VALUES ('$ic','$email',$phone,'$gender','$address','$pwdHash','$firstName','$lastName','$uploadfileName','$isAdmin')";
-            } else if ($_POST['position'] == 'nurse') {
-                $sql = "INSERT INTO nurse(ic,email,mobile,gender,address,password,firstName,lastName,photo,isAdmin) VALUES ('$ic','$email',$phone,'$gender','$address','$pwdHash','$firstName','$lastName','$uploadfileName','$isAdmin')";
-            }
+
+            $sql = "INSERT INTO patient(ic,email,mobile,gender,address,firstName,lastName,photo) VALUES ('$ic','$email',$phone,'$gender','$address','$firstName','$lastName','$uploadfileName')";
+
             $status = update_DbTable($conn, $sql);
 
             if ($status) {
                 if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
                     $message = "Form data updated successfully";
-                    include("./add_staff_message.php");
+                    include("./add_patient_message.php");
                 } else {
                     $message = "Sorry, there was an error uploding your file";
-                    include("./add_staff_message.php");
+                    include("./add_patient_message.php");
                 }
             } else {
                 $message = "Sorry, there was an error uploading your data";
-                include("./add_staff_message.php");
+                include("./add_patient_message.php");
             }
         }
     }
     // There is no image to be uploaded so save the record
     else if ($exist == false) {
         // $sql = "UPDATE Profile SET name='$name',email='$email',program='$program',mentorName='$mentorName',motto='$motto' WHERE matricNo='$matricNo'";
-        if ($_POST['position'] == "dentist") {
-            $sql = "INSERT INTO dentist(ic,email,mobile,gender,address,password,firstName,lastName,isAdmin) VALUES ('$ic','$email',$phone,'$gender','$address','$pwdHash','$firstName','$lastName','$isAdmin')";
-        } else if ($_POST['position']) {
-            $sql = "INSERT INTO nurse(ic,email,mobile,gender,address,password,firstName,lastName,isAdmin) VALUES ('$ic','$email',$phone,'$gender','$address','$pwdHash','$firstName','$lastName','$isAdmin')";
-        }
+        $sql = "INSERT INTO patient(ic,email,mobile,gender,address,firstName,lastName) VALUES ('$ic','$email',$phone,'$gender','$address','$firstName','$lastName')";
 
         $status = update_DbTable($conn, $sql);
 
         if ($status) {
-            $message = "Success Add New Staff $firstName $lastName";
-            include("./add_staff_message.php");
+            $message = "Success Add New Patient $firstName $lastName";
+            include("./add_patient_message.php");
         } else {
             $message = "Sorry, there was an error uploading your data";
-            include("./add_staff_message.php");
+            include("./add_patient_message.php");
         }
     }
 }

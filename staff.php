@@ -104,7 +104,7 @@
         </table>
 
         <div class="col-12 text-center">
-            <a href="./add_patient.html" class="btn btn-primary">Add Patient</a>
+            <a href="./add_patient.php" class="btn btn-primary">Add Patient</a>
         </div>
 
 
