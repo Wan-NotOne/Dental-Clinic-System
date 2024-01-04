@@ -29,7 +29,7 @@
                 <h1 class="text-center mb-5">Sign Up</h1>
 
 
-                <form action="" class="h-100 d-flex align-items-center">
+                <form action="./include/user_signup_action.php" method="POST" class="h-100 d-flex align-items-center">
                     <div class="col-12">
                         <div class="row g-4 mb-5">
 
@@ -74,8 +74,15 @@
                                 <input type="text" name="address" id="address" class="form-control" required>
                             </div>
 
+                            <div class="col-12">
+                                <label for="password" class="mb-1">Password</label>
+                                <input type="password" name="password" id="password" class="form-control" required>
+                            </div>
 
-
+                            <div class="col-12">
+                                <label for="confirmPassword" class="mb-1">Confirm Password</label>
+                                <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" required>
+                            </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">Sign Up</button>

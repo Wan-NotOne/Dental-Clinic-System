@@ -29,12 +29,12 @@
                 <h1 class="text-center mb-5">Log In</h1>
 
 
-                <form action="" class="h-100 d-flex align-items-center">
+                <form action="./include/user_login_action.php" method="POST" class="h-100 d-flex align-items-center">
                     <div class="col-12">
 
                         <div class="col-12 mb-5">
-                            <label for="id" class="mb-1">Email</label>
-                            <input type="text" id="adminID" name="adminID" class="form-control" required>
+                            <label for="email" class="mb-1">Email</label>
+                            <input type="text" id="email" name="email" class="form-control" required>
                         </div>
 
                         <div class="col-12 mb-5">
