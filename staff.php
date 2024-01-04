@@ -1,3 +1,9 @@
+<?php
+session_start();
+include("include/config.php");
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,6 +29,17 @@
 
 <body>
 
+    <?php
+
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
+    if (isset($_SESSION['UID']) && !empty($_SESSION['UID'])) {
+        $sql = $sql = "SELECT * FROM patient";
+        $result = mysqli_query($conn, $sql);
+    }
+    ?>
+
     <div class="container-fluid navbar mb-5">
         <div class="col-12">
             <h1 class="text-center">Staff</h1>
@@ -35,71 +52,36 @@
         <table class="table table-bordered mb-5">
             <thead>
                 <tr>
+                    <th scope="col" class="text-center">No</th>
                     <th scope="col" class="text-center w-80">Name</th>
                     <th scope="col" class="text-center w-20">Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Patient 1</td>
-                    <td class="text-center">
-                        <a href="./edit_patient.html">Edit</a>
-                        &nbsp;&nbsp;
-                        <a href="./patient_detail.html">View</a>
-                        &nbsp;&nbsp;
-                        <a href="#" class="text-danger">Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Patient 2</td>
-                    <td class="text-center">
-                        <a href="#">Edit</a>
-                        &nbsp;&nbsp;
-                        <a href="#">View</a>
-                        &nbsp;&nbsp;
-                        <a href="#" class="text-danger">Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Patient 3</td>
-                    <td class="text-center">
-                        <a href="#">Edit</a>
-                        &nbsp;&nbsp;
-                        <a href="#">View</a>
-                        &nbsp;&nbsp;
-                        <a href="#" class="text-danger">Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Patient 4</td>
-                    <td class="text-center">
-                        <a href="#">Edit</a>
-                        &nbsp;&nbsp;
-                        <a href="#">View</a>
-                        &nbsp;&nbsp;
-                        <a href="#" class="text-danger">Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Patient 5</td>
-                    <td class="text-center">
-                        <a href="#">Edit</a>
-                        &nbsp;&nbsp;
-                        <a href="#">View</a>
-                        &nbsp;&nbsp;
-                        <a href="#" class="text-danger">Delete</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Patient 6</td>
-                    <td class="text-center">
-                        <a href="#">Edit</a>
-                        &nbsp;&nbsp;
-                        <a href="#">View</a>
-                        &nbsp;&nbsp;
-                        <a href="#" class="text-danger">Delete</a>
-                    </td>
-                </tr>˝
+                <?php
+                if (mysqli_num_rows($result) > 0) {
+                    $numRow = 1;
+                    while ($row = mysqli_fetch_array($result)) {
+                        echo "<tr>";
+                        echo "<td>$numRow</td>";
+                        echo "<td>" . $row['firstName'] . " " . $row['lastName'] . "</td>";
+
+                        echo '<td class="text-center">';
+                        echo '<a href="edit_patient.php?id=' . $row['id'] . '">Edit</a>';
+                        echo '&nbsp;&nbsp;';
+                        echo '<a href="patient_detail.php?id=' . $row['id'] . '">View</a>';
+                        echo '&nbsp;&nbsp;';
+                        echo '<a href="./include/delete_patient_action.php?id=' . $row['id'] . '" class="text-danger" onClick="return confirm(\'Delete?\');">Delete</a>';
+                        echo '</td>';
+
+                        echo "</tr>";
+                        $numRow = $numRow + 1;
+                    }
+                } else {
+                    echo '<tr><td colspan="6">0 results</td></tr>';
+                }
+                ?>
+
             </tbody>
         </table>
 
