@@ -5,7 +5,6 @@ include("config.php");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$userName;
 //STEP 1: Form data handling using mysqli_real_escape_string function to 
 // escape special characters for use in an SQL query,
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -46,7 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $message = "Error: $sql \n $error";
             include("./error_signup.php");
         }
-
     }
     mysqli_close($conn);
 }

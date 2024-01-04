@@ -30,7 +30,7 @@
 
                 <div class="row g-4 justify-content-around">
                     <div class="col-md-5" id="admin-card">
-                        <a href="./admin_login.html">
+                        <a href="./admin_login.php">
                             <div class="card p-3">
                                 <img src="./image/admin.png" alt="" class="card-img-top">
                                 <div class="card-body">
@@ -41,7 +41,7 @@
                     </div>
 
                     <div class="col-md-5" id="staff-card">
-                        <a href="./staff_login.html">
+                        <a href="./staff_login.php">
                             <div class="card p-3">
                                 <img src="./image/staff.png" alt="" class="card-img-top">
                                 <div class="card-body">

@@ -29,7 +29,7 @@
                 <h1 class="text-center mb-5">Admin Log In</h1>
 
 
-                <form action="" class="h-100 d-flex align-items-center">
+                <form action="./include/admin_login_action.php" method="POST" class="h-100 d-flex align-items-center">
                     <div class="col-12">
 
                         <div class="col-12 mb-5">

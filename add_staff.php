@@ -29,7 +29,7 @@
 
 
     <div class="container">
-        <form action="">
+        <form action="./include/add_staff_action.php" method="POST" enctype="multipart/form-data">
             <div class="row g-4 mb-5">
                 <div class="col-lg-6 d-flex justify-content-center align-items-center mb-lg-0 mb-4">
                     <div>
@@ -39,8 +39,7 @@
                         </div>
                         <div class="text-center">
                             <small class="my-2 d-inline-block">Max size: 488.28KB</small><br>
-                            <input type="file" name="fileToUpload" id="fileToUpload" accept=".jpg, .jpeg, .png"
-                                class="form-control">
+                            <input type="file" name="fileToUpload" id="fileToUpload" accept=".jpg, .jpeg, .png" class="form-control">
                         </div>
                     </div>
 
@@ -67,7 +66,7 @@
 
                         <div class="col-sm-6 d-flex align-items-center">
                             <label for="gender" class="me-3">Gender</label>
-                            <select name="gender" id="gender" class="form-select">
+                            <select name="gender" id="gender" class="form-select" required>
                                 <option selected>Open this select menu</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
@@ -76,9 +75,9 @@
 
                         <div class="col-sm-6 d-flex align-items-center">
                             <label for="position" class="me-3">Position</label>
-                            <select name="position" id="position" class="form-select">
+                            <select name="position" id="position" class="form-select" required>
                                 <option selected>Open this select menu</option>
-                                <option value="doctor">Doctor</option>
+                                <option value="dentist">Dentist</option>
                                 <option value="nurse">Nurse</option>
                             </select>
                         </div>
@@ -97,7 +96,25 @@
                         <div class="col-12">
                             <label for="address" class="mb-3">Address</label>
                             <input type="text" name="address" id="address" class="form-control" required>
+                        </div>
 
+                        <div class="col-sm-6 d-flex align-items-center">
+                            <label for="isAdmin" class="me-3">Admin</label>
+                            <select name="isAdmin" id="isAdmin" class="form-select">
+                                <option selected>Open this select menu</option>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="password" class="mb-1">Password</label>
+                            <input type="password" name="password" id="password" class="form-control" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="confirmPassword" class="mb-1">Confirm Password</label>
+                            <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" required>
                         </div>
                     </div>
                 </div>
@@ -109,7 +126,7 @@
         </form>
 
         <div class="col-12 text-center">
-            <a href="/staff.html" class="btn btn-danger">Back</a>
+            <a href="./staff.php" class="btn btn-danger">Back</a>
         </div>
     </div>
 </body>
