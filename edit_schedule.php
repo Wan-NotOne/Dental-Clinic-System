@@ -1,3 +1,8 @@
+<?php
+session_start();
+include("include/config.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,6 +25,28 @@
 </head>
 
 <body>
+
+
+    <?php
+
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
+
+    if (isset($_SESSION['UID']) && !empty($_SESSION['UID'])) {
+        $sql = "SELECT s.id, s.dentistID, s.nurseID, s.date, s.time_from, s.time_to, s.room_number, s.update_date,
+CONCAT(n.firstName, ' ', n.lastName) AS nurseName
+FROM schedule s
+JOIN nurse n ON s.nurseID = n.id
+WHERE s.id=" . $_GET['id'];
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) == 1) {
+            $row = mysqli_fetch_assoc($result);
+        }
+    } else {
+        header("location:./admin_staff.php");
+    }
+    ?>
     <div class="container-fluid navbar mb-5">
         <div class="col-12">
             <h1 class="text-center">Edit Schedule</h1>
@@ -28,35 +55,42 @@
 
     <div class="container">
 
-        <form action="">
+        <form action="./include/edit_schedule_action.php" method="POST">
+            <input type="text" id="id" name="id" value="<?= $_GET['id'] ?>" hidden>
             <div class="row g-4 mb-5">
                 <div class="col-12 mb-3">
                     <label for="room" class="mb-2">Room Number</label>
                     <select name="room" id="room" class="form-select">
                         <option selected>Open this select menu</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
+                        <option value="1" <?php echo $row['room_number'] == 1 ? "selected" : "" ?>>1</option>
+                        <option value="2" <?php echo $row['room_number'] == 2 ? "selected" : "" ?>>2</option>
+                        <option value="3" <?php echo $row['room_number'] == 3 ? "selected" : "" ?>>3</option>
+                        <option value="4" <?php echo $row['room_number'] == 4 ? "selected" : "" ?>>4</option>
+                        <option value="5" <?php echo $row['room_number'] == 5 ? "selected" : "" ?>>5</option>
+                        <option value="6" <?php echo $row['room_number'] == 6 ? "selected" : "" ?>>6</option>
+                        <option value="7" <?php echo $row['room_number'] == 7 ? "selected" : "" ?>>7</option>
                     </select>
                 </div>
 
                 <div class="col-12">
                     <label for="nurse" class="mb-2">Nurse</label>
-                    <input type="text" name="nurse" id="nurse" class="form-control" required>
+                    <input type="text" name="nurse" id="nurse" class="form-control" value="<?php echo $row['nurseName'] ?> " required>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-12">
                     <label for="date" class="mb-2">Date</label>
-                    <input type="date" name="date" id="date" class="form-control" required>
+                    <input type="date" name="date" id="date" class="form-control" value="<?php echo $row['date'] ?>" required>
                 </div>
 
                 <div class="col-md-6">
-                    <label for="time" class="mb-2">Time</label>
-                    <input type="time" name="time" id="time" class="form-control" required>
+                    <label for="timeFrom" class="mb-2">Time From</label>
+                    <input type="time" name="timeFrom" id="timeFrom" class="form-control" value="<?php echo $row['time_from'] ?>" required>
+                </div>
+
+
+                <div class="col-md-6">
+                    <label for="timeTo" class="mb-2">Time To</label>
+                    <input type="time" name="timeTo" id="timeTo" class="form-control" value="<?php echo $row['time_to'] ?>" required>
                 </div>
             </div>
 
@@ -66,8 +100,9 @@
         </form>
 
         <div class="col-12 text-center">
-            <a href="./staff_detail.php" class="btn btn-danger">Back</a>
+            <a href="./admin.php" class="btn btn-danger">Back</a>
         </div>
     </div>
 </body>
+
 </html>
