@@ -37,6 +37,8 @@ include("include/config.php");
     if (isset($_SESSION['UID']) && !empty($_SESSION['UID'])) {
         $sql = $sql = "SELECT * FROM patient";
         $result = mysqli_query($conn, $sql);
+    }else{
+        header("location:../staff_login.php");
     }
     ?>
 
