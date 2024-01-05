@@ -45,7 +45,7 @@
                         <button type="submit" class="btn btn-primary w-100">Log In</button>
                     </div>
                 </form>
-                <p class="text-center mt-4">Don't have an account? <a href="sign_up.html">Sign up</a></p>
+                <p class="text-center mt-4">Don't have an account? <a href="./sign_up.php">Sign up</a></p>
             </div>
         </div>
     </main>

@@ -88,7 +88,7 @@
                         <button type="submit" class="btn btn-primary w-100">Sign Up</button>
                     </div>
                 </form>
-                <p class="text-center mt-4">Already have an account? <a href="user_login.html">Sign In</a></p>
+                <p class="text-center mt-4">Already have an account? <a href="user_login.php">Sign In</a></p>
             </div>
         </div>
     </main>

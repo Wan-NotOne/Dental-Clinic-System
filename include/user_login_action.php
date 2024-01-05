@@ -11,7 +11,7 @@ ini_set('display_errors', 1);
 $userEmail = $_POST["email"];
 $userPwd = $_POST["password"];
 
-$sql = "SELECT * FROM patient WHERE email='$userEmail' LIMIT 1";
+$sql = "SELECT * FROM user WHERE email='$userEmail' LIMIT 1";
 $result = mysqli_query($conn, $sql);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (mysqli_num_rows($result) == 1) {
@@ -32,13 +32,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $dbpwd = $row['password'];
             $userPwd = $_POST["password"];
             $message = "Login error, user and password is incorrect.";
-            include("./error_login.php");
+            include("./user_login_message.php");
         }
     } else {
         // user matricNo not exist
         $message = "Login error, user email does not exist";
-        include("./error_login.php");
+        include("./user_login_message.php");
     }
-
-    mysqli_close($conn);
+} else {
+    echo "No Connect database";
 }
+mysqli_close($conn);

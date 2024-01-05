@@ -5,11 +5,10 @@ CREATE TABLE patient (
     mobile VARCHAR(20),
     gender VARCHAR(10),
     address TEXT,
-    password VARCHAR(255),
     firstName VARCHAR(255),
     lastName VARCHAR(255),
-    photo VARCHAR(255),
-)
+    photo VARCHAR(255)
+);
 
 CREATE TABLE dentist (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
@@ -23,7 +22,7 @@ CREATE TABLE dentist (
     lastName VARCHAR(255),
     photo VARCHAR(255),
     isAdmin bool
-)
+);
 
 CREATE TABLE nurse (
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
@@ -37,7 +36,7 @@ CREATE TABLE nurse (
     lastName VARCHAR(255),
     photo VARCHAR(255),
     isAdmin bool
-)
+);
 
 CREATE TABLE review (
     review_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -48,4 +47,17 @@ CREATE TABLE review (
     date DATE,
     patient_id INT, 
     FOREIGN KEY (patient_id) REFERENCES patient(id) 
+);
+
+CREATE TABLE user (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+    ic VARCHAR(20),
+    email VARCHAR(50),
+    mobile VARCHAR(20),
+    gender VARCHAR(10),
+    address TEXT,
+    password VARCHAR(255),
+    firstName VARCHAR(255),
+    lastName VARCHAR(255),
+    photo VARCHAR(255)
 );

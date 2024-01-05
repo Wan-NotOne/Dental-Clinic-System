@@ -189,7 +189,7 @@ include("include/config.php");
                 <?php
                 echo '<a href="edit_patient.php?id=' . $_GET['id'] . '"class="btn btn-primary mb-3">Edit Patient</a>';
                 ?>
-                <a href="/staff.html" class="btn btn-danger mb-3">Back</a>
+                <a href="./staff.php" class="btn btn-danger mb-3">Back</a>
             </div>
         </div>
     </div>
