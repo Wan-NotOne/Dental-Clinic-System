@@ -208,7 +208,9 @@ include("include/config.php");
             </table>
 
             <div class="col-12 text-center">
-                <a href="/edit_staff.html" class="btn btn-primary mb-4">Edit Staff</a><br />
+                <?php
+                echo '<a href="edit_staff.php?id=' . $row['id'] . '&position=' . $position . '" class="btn btn-primary mb-3">Edit Staff</a>';
+                ?>
                 <a href="./admin.php" class="btn btn-danger mb-3">Back</a>
             </div>
         </div>
