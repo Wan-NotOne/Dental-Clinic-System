@@ -132,36 +132,8 @@ include("include/config.php");
         ini_set('display_errors', 1);
 
 
-        // if (isset($_SESSION['UID']) && !empty($_SESSION['UID'])) {
-        //     $sqlSchedule = "SELECT * FROM schedule WHERE dentistID=" . $_GET['id'];
-
-
-        //     $resultSchedule = mysqli_query($conn, $sqlSchedule);
-
-        //     if (mysqli_num_rows($resultSchedule) == 1) {
-        //         $row = mysqli_fetch_assoc($resultSchedule);
-
-        //         $id = $row['id'];
-        //         $nurseID = $row['nurseID'];
-        //         $date = $row['date'];
-        //         $time_from = $row['time_from'];
-        //         $time_to = $row['time_to'];
-        //         $room_number = $row['room_number'];
-        //         $update_date = $row['update_date'];
-
-        //         $sqlNurse = "SELECT * FROM nurse WHERE id=" . $nurseID;
-
-        //         $resultNurse = mysqli_query($conn, $sqlNurse);
-
-        //         if (mysqli_num_rows($resultNurse) == 1) {
-        //             $row = mysqli_fetch_assoc($resultNurse);
-        //             $nurseName = $row['firstName'] . " " . $row['lastName'];
-        //         }
-        //     }
-        // }
-
         if (isset($_SESSION['UID']) && !empty($_SESSION['UID'])) {
-            $sql = $sql = "SELECT s.id, s.dentistID, s.nurseID, s.date, s.time_from, s.time_to, s.room_number, s.update_date,
+            $sql = "SELECT s.id, s.dentistID, s.nurseID, s.date, s.time_from, s.time_to, s.room_number, s.update_date,
             CONCAT(n.firstName, ' ', n.lastName) AS nurseName
         FROM schedule s
         JOIN nurse n ON s.nurseID = n.id
@@ -170,10 +142,6 @@ include("include/config.php");
         } else {
             header("location:./admin_staff.php");
         }
-
-
-
-
         ?>
 
         <div class="col-12">
@@ -204,7 +172,7 @@ include("include/config.php");
                             echo '<td class="text-center">';
                             echo '<a href="edit_schedule.php?id=' . $row['id'] . '">Edit</a>';
                             echo '&nbsp;&nbsp;';
-                            echo '<a href="patient_schedule.php?id=' . $row['id'] . '">View</a>';
+                            echo '<a href="schedule_detail.php?id=' . $row['id'] . '">View</a>';
                             echo '&nbsp;&nbsp;';
                             echo '<a href="./include/delete_schedule_action.php?id=' . $row['id'] . '" class="text-danger" onClick="return confirm(\'Delete?\');">Delete</a>';
                             echo '</td>';
@@ -227,8 +195,6 @@ include("include/config.php");
             </div>
         </div>
     </div>
-
-
 </body>
 
 </html>

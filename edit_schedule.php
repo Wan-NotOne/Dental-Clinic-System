@@ -66,7 +66,7 @@
         </form>
 
         <div class="col-12 text-center">
-            <a href="./staff_detail.html" class="btn btn-danger">Back</a>
+            <a href="./staff_detail.php" class="btn btn-danger">Back</a>
         </div>
     </div>
 </body>
