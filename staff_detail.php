@@ -125,11 +125,63 @@ include("include/config.php");
             </div>
         </div>
 
+
+        <?php
+
+        error_reporting(E_ALL);
+        ini_set('display_errors', 1);
+
+
+        // if (isset($_SESSION['UID']) && !empty($_SESSION['UID'])) {
+        //     $sqlSchedule = "SELECT * FROM schedule WHERE dentistID=" . $_GET['id'];
+
+
+        //     $resultSchedule = mysqli_query($conn, $sqlSchedule);
+
+        //     if (mysqli_num_rows($resultSchedule) == 1) {
+        //         $row = mysqli_fetch_assoc($resultSchedule);
+
+        //         $id = $row['id'];
+        //         $nurseID = $row['nurseID'];
+        //         $date = $row['date'];
+        //         $time_from = $row['time_from'];
+        //         $time_to = $row['time_to'];
+        //         $room_number = $row['room_number'];
+        //         $update_date = $row['update_date'];
+
+        //         $sqlNurse = "SELECT * FROM nurse WHERE id=" . $nurseID;
+
+        //         $resultNurse = mysqli_query($conn, $sqlNurse);
+
+        //         if (mysqli_num_rows($resultNurse) == 1) {
+        //             $row = mysqli_fetch_assoc($resultNurse);
+        //             $nurseName = $row['firstName'] . " " . $row['lastName'];
+        //         }
+        //     }
+        // }
+
+        if (isset($_SESSION['UID']) && !empty($_SESSION['UID'])) {
+            $sql = $sql = "SELECT s.id, s.dentistID, s.nurseID, s.date, s.time_from, s.time_to, s.room_number, s.update_date,
+            CONCAT(n.firstName, ' ', n.lastName) AS nurseName
+        FROM schedule s
+        JOIN nurse n ON s.nurseID = n.id
+        WHERE s.dentistID=" . $_GET['id'];
+            $result = mysqli_query($conn, $sql);
+        } else {
+            header("location:./admin_staff.php");
+        }
+
+
+
+
+        ?>
+
         <div class="col-12">
             <h3 class="mb-4">Schedule</h3>
             <table class="table table-bordered mb-5">
                 <thead>
                     <tr>
+                        <th scope="col" class="text-center">No</th>
                         <th scope="col" class="text-center">Room Number</th>
                         <th scope="col" class="text-center">Nurse</th>
                         <th scope="col" class="text-center">Date</th>
@@ -138,78 +190,38 @@ include("include/config.php");
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Room 1</td>
-                        <td>Nurse 2</td>
-                        <td>Decmber 30,2023 </td>
-                        <td>10:00 AM</td>
-                        <td class="text-center">
-                            <a href="./edit_schedule.html">Edit</a>
-                            &nbsp;&nbsp;
-                            <a href="#">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Room 2</td>
-                        <td>Nurse 2</td>
-                        <td>Decmber 30,2023 </td>
-                        <td>10:00 AM</td>
-                        <td class="text-center">
-                            <a href="#">Edit</a>
-                            &nbsp;&nbsp;
-                            <a href="#">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Room 3</td>
-                        <td>Nurse 3</td>
-                        <td>Decmber 30,2023 </td>
-                        <td>10:00 AM</td>
-                        <td class="text-center">
-                            <a href="#">Edit</a>
-                            &nbsp;&nbsp;
-                            <a href="#">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Room 4</td>
-                        <td>Nurse 4</td>
-                        <td>Decmber 30,2023 </td>
-                        <td>10:00 AM</td>
-                        <td class="text-center">
-                            <a href="#">Edit</a>
-                            &nbsp;&nbsp;
-                            <a href="#">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Room 5</td>
-                        <td>Nurse 5</td>
-                        <td>Decmber 30,2023 </td>
-                        <td>10:00 AM</td>
-                        <td class="text-center">
-                            <a href="#">Edit</a>
-                            &nbsp;&nbsp;
-                            <a href="#">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Room 6</td>
-                        <td>Nurse 6</td>
-                        <td>Decmber 30,2023 </td>
-                        <td>10:00 AM</td>
-                        <td class="text-center">
-                            <a href="#">Edit</a>
-                            &nbsp;&nbsp;
-                            <a href="#">Delete</a>
-                        </td>
-                    </tr>
+                    <?php
+                    if (mysqli_num_rows($result) > 0) {
+                        $numRow = 1;
+                        while ($row = mysqli_fetch_array($result)) {
+                            echo "<tr>";
+                            echo "<td class=\"text-center\">$numRow</td>";
+                            echo "<td>Room " . $row['room_number'] . "</td>";
+                            echo "<td>" . $row['nurseName'] . "</td>";
+                            echo "<td> " . $row['date'] . "</td>";
+                            echo "<td> " . $row['time_from'] . "</td>";
+
+                            echo '<td class="text-center">';
+                            echo '<a href="edit_schedule.php?id=' . $row['id'] . '">Edit</a>';
+                            echo '&nbsp;&nbsp;';
+                            echo '<a href="patient_schedule.php?id=' . $row['id'] . '">View</a>';
+                            echo '&nbsp;&nbsp;';
+                            echo '<a href="./include/delete_schedule_action.php?id=' . $row['id'] . '" class="text-danger" onClick="return confirm(\'Delete?\');">Delete</a>';
+                            echo '</td>';
+
+                            echo "</tr>";
+                            $numRow = $numRow + 1;
+                        }
+                    } else {
+                        echo '<tr><td colspan="6">0 results</td></tr>';
+                    }
+                    ?>
                 </tbody>
             </table>
 
             <div class="col-12 text-center">
                 <?php
-                echo '<a href="edit_staff.php?id=' . $row['id'] . '&position=' . $position . '" class="btn btn-primary mb-3">Edit Staff</a>';
+                echo '<a href="edit_staff.php?id=' . $_GET['id'] . '&position=' . $position . '" class="btn btn-primary mb-3">Edit Staff</a>';
                 ?>
                 <a href="./admin.php" class="btn btn-danger mb-3">Back</a>
             </div>

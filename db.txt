@@ -61,3 +61,20 @@ CREATE TABLE user (
     lastName VARCHAR(255),
     photo VARCHAR(255)
 );
+
+CREATE TABLE schedule (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+    dentistID INT,
+    nurseID INT,
+    date DATE,
+    time_from TIME,
+    time_to TIME,
+    room_number VARCHAR(10),
+    update_date DATE,
+    FOREIGN KEY (dentistID) REFERENCES dentist(id),
+    FOREIGN KEY (nurseID) REFERENCES nurse(id)
+);
+
+
+
+
