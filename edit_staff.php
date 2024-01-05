@@ -69,7 +69,7 @@ include("include/config.php");
             <input type="text" id="id" name="id" value="<?= $_GET['id'] ?>" hidden>
             <div class="row g-4 mb-5 justify-content-center">
                 <div class="col-lg-6 col-7 d-flex justify-content-center align-items-center mb-lg-0 mb-4">
-                    <div>
+                    <div class="text-center">
                         <?php
                         if ($photo != "")
                             echo "<img src=\"uploads/" . $row['photo'] . "\" alt=\"profile picture\" class=\"img-thumbnail mb-3\">";
@@ -77,7 +77,6 @@ include("include/config.php");
                             echo '<img src="./image/anonymous.png" alt="profile picture" class="img-thumbnail mb-3" />';
 
                         ?>
-                        <!-- <img src="./image/profile.jpg" alt=""> -->
 
                         <div class="text-center">
                             <small class="my-2 d-inline-block">Max size: 488.28KB</small><br>

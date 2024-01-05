@@ -1,3 +1,8 @@
+<?php
+session_start();
+include("include/config.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,6 +26,31 @@
 
 <body>
 
+    <?php
+
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
+    if (isset($_SESSION['UID']) && !empty($_SESSION['UID'])) {
+        $sql = "SELECT * FROM patient WHERE id='" . $_GET['id'] . "' LIMIT 1";
+        $result = mysqli_query($conn, $sql);
+
+        if (mysqli_num_rows($result) == 1) {
+            $row = mysqli_fetch_assoc($result);
+
+            $ic = $row['ic'];
+            $email = $row['email'];
+            $phone = $row['mobile'];
+            $gender = $row['gender'];
+            $address = $row['address'];
+            $firstName = $row["firstName"];
+            $lastName = $row["lastName"];
+            $photo = $row['photo'];
+        }
+    }
+    ?>
+
+
     <div class="container-fluid navbar mb-5">
         <div class="col-12">
             <h1 class="text-center">Patient Detail</h1>
@@ -29,21 +59,24 @@
 
 
     <div class="container">
-        <form action="">
-            <div class="row g-4 mb-5">
-                <div class="col-lg-6 d-flex justify-content-center align-items-center mb-lg-0 mb-4">
-                    <div>
+        <form action="./include/edit_patient_action.php" method="POST" enctype="multipart/form-data">
+            <input type="text" id="id" name="id" value="<?= $_GET['id'] ?>" hidden>
+            <div class="row g-4 mb-5 justify-content-center align-items-center">
+                <div class="col-lg-6 col-7 d-flex justify-content-center align-items-center mb-lg-0 mb-4">
+                    <div class="text-center">
+                        <?php
+                        if ($photo != "")
+                            echo "<img src=\"uploads/" . $row['photo'] . "\" alt=\"profile picture\" class=\"img-thumbnail mb-3\">";
+                        else
+                            echo '<img src="./image/anonymous.png" alt="profile picture" class="img-thumbnail mb-3" />';
 
-                        <div class="image">
+                        ?>
 
-                        </div>
                         <div class="text-center">
                             <small class="my-2 d-inline-block">Max size: 488.28KB</small><br>
-                            <input type="file" name="fileToUpload" id="fileToUpload" accept=".jpg, .jpeg, .png"
-                                class="form-control">
+                            <input type="file" name="fileToUpload" id="fileToUpload" accept=".jpg, .jpeg, .png" class="form-control">
                         </div>
                     </div>
-
                 </div>
 
                 <div class="col-lg-6">
@@ -51,17 +84,17 @@
 
                         <div class="col-12 d-flex align-items-center justify-content-between">
                             <label for="firstName" class="me-3">First&nbsp;Name</label>
-                            <input type="text" name="firstName" id="firstName" class="form-control w-100" required>
+                            <input type="text" name="firstName" id="firstName" class="form-control" value="<?php echo $firstName ?>" required>
                         </div>
 
                         <div class="col-12 d-flex align-items-center justify-content-between">
                             <label for="lastName" class="me-3">Last&nbsp;Name</label>
-                            <input type="text" name="lastName" id="lastName" class="form-control" required>
+                            <input type="text" name="lastName" id="lastName" class="form-control" value="<?php echo $lastName ?>" required>
                         </div>
 
                         <div class="col-12 d-flex align-items-center justify-content-between">
                             <label for="ic" class="me-3">IC&nbsp;No</label>
-                            <input type="text" name="ic" id="ic" class="form-control" required>
+                            <input type="text" name="ic" id="ic" class="form-control" value="<?php echo $ic ?>" required>
                         </div>
 
 
@@ -69,25 +102,25 @@
                             <label for="gender" class="me-3">Gender</label>
                             <select name="gender" id="gender" class="form-select">
                                 <option selected>Open this select menu</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
+                                <option value="male" <?php echo $gender == 'male' ? "selected" : "" ?>>Male</option>
+                                <option value="female" <?php echo $gender == 'female' ? "selected" : "" ?>>Female</option>
                             </select>
                         </div>
 
 
                         <div class="col-12 d-flex align-items-center justify-content-between">
                             <label for="email" class="me-3">Email</label>
-                            <input type="email" name="email" id="email" class="form-control" required>
+                            <input type="email" name="email" id="email" class="form-control" value="<?php echo $email ?>" required>
                         </div>
 
                         <div class="col-12 d-flex align-items-center justify-content-between">
                             <label for="phone" class="me-3">Phone&nbsp;Number</label>
-                            <input type="text" name="phone" id="phone" class="form-control" required>
+                            <input type="text" name="phone" id="phone" class="form-control" value="<?php echo $phone ?>" required>
                         </div>
 
                         <div class="col-12">
                             <label for="address" class="mb-3">Address</label>
-                            <input type="text" name="address" id="address" class="form-control" required>
+                            <input type="text" name="address" id="address" class="form-control" value="<?php echo $address ?>" required>
 
                         </div>
                     </div>
@@ -100,7 +133,7 @@
         </form>
 
         <div class="col-12 text-center">
-            <a href="/staff.html" class="btn btn-danger">Back</a>
+            <a href="./staff.php" class="btn btn-danger">Back</a>
         </div>
     </div>
 </body>
