@@ -37,8 +37,8 @@ include("include/config.php");
     if (isset($_SESSION['UID']) && !empty($_SESSION['UID'])) {
         $sql = $sql = "SELECT * FROM patient";
         $result = mysqli_query($conn, $sql);
-    }else{
-        header("location:../staff_login.php");
+    } else {
+        header("location:./admin_staff.php");
     }
     ?>
 
@@ -89,6 +89,10 @@ include("include/config.php");
 
         <div class="col-12 text-center">
             <a href="./add_patient.php" class="btn btn-primary">Add Patient</a>
+        </div>
+
+        <div class="col-12 text-center mt-5">
+            <a href="./include/logout_action.php" class="btn btn-danger">Logout</a>
         </div>
 
 

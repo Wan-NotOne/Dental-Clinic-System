@@ -110,6 +110,10 @@ include("include/config.php");
         <div class="col-12 text-center">
             <a href="./add_staff.php" class="btn btn-primary">Add Staff</a>
         </div>
+
+        <div class="col-12 text-center mt-5">
+            <a href="./include/logout_action.php" class="btn btn-danger">Logout</a>
+        </div>
     </div>
 </body>
 </html>
