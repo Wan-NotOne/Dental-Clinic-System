@@ -28,25 +28,28 @@ include("include/config.php");
 
 
     <?php
-
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
 
-
     if (isset($_SESSION['UID']) && !empty($_SESSION['UID'])) {
-        $sql = "SELECT s.id, s.dentistID, s.nurseID, s.date, s.time_from, s.time_to, s.room_number, s.update_date,
-CONCAT(n.firstName, ' ', n.lastName) AS nurseName
-FROM schedule s
-JOIN nurse n ON s.nurseID = n.id
-WHERE s.id=" . $_GET['id'];
+        //         $sql = "SELECT s.id, s.dentistID, s.nurseID, s.date, s.time_from, s.time_to, s.room_number, s.update_date,
+        // CONCAT(n.firstName, ' ', n.lastName) AS nurseName
+        // FROM schedule s
+        // JOIN nurse n ON s.nurseID = n.id
+        // WHERE s.id=" . $_GET['id'];
+        $sql = "SELECT * FROM schedule WHERE id=" . $_GET['id'];
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) == 1) {
             $row = mysqli_fetch_assoc($result);
         }
+
+        $sqlNurse = "SELECT * FROM nurse";
+        $resultNurse = mysqli_query($conn, $sqlNurse);
     } else {
         header("location:./admin_staff.php");
     }
     ?>
+
     <div class="container-fluid navbar mb-5">
         <div class="col-12">
             <h1 class="text-center">Edit Schedule</h1>
@@ -73,8 +76,17 @@ WHERE s.id=" . $_GET['id'];
                 </div>
 
                 <div class="col-12">
-                    <label for="nurse" class="mb-2">Nurse</label>
-                    <input type="text" name="nurse" id="nurse" class="form-control" value="<?php echo $row['nurseName'] ?> " required>
+                    <label for="nurseID" class="mb-2">Nurse</label>
+                    <select name="nurseID" id="nurseID" class="form-select">
+                        <?php
+                        if (mysqli_num_rows($resultNurse) > 0) {
+                            while ($rowNurse = mysqli_fetch_array($resultNurse)) {
+                                $selected = ($rowNurse['id'] == $row['nurseID']) ? 'selected' : '';
+                                echo "<option value=" . $rowNurse['id'] . " $selected >" . $rowNurse['id'] . " - " . $rowNurse['firstName'] . " " . $rowNurse['lastName'] . "</option>";
+                            }
+                        }
+                        ?>
+                    </select>
                 </div>
 
                 <div class="col-12">
