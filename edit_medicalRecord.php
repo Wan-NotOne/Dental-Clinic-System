@@ -1,3 +1,9 @@
+<?php
+session_start();
+include("include/config.php");
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,6 +26,27 @@
 </head>
 
 <body>
+
+    <?php
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+
+    if (isset($_SESSION['UID']) && !empty($_SESSION['UID'])) {
+        $sql = "SELECT * FROM medicalRecord WHERE id=" . $_GET['id'];
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) == 1) {
+            $row = mysqli_fetch_assoc($result);
+        }
+
+        $sqlDentist = "SELECT * FROM dentist";
+        $resultDentist = mysqli_query($conn, $sqlDentist);
+    } else {
+        header("location:./admin_staff.php");
+    }
+
+
+    ?>
+
     <div class="container-fluid navbar mb-5">
         <div class="col-12">
             <h1 class="text-center">Edit Medical Record</h1>
@@ -28,27 +55,37 @@
 
     <div class="container">
 
-        <form action="">
+        <form action="./include/edit_medicalRecord_action.php" method="POST">
+            <input type="text" id="id" name="id" value="<?= $_GET['id'] ?>" hidden>
             <div class="row g-4 mb-5">
 
                 <div class="col-12">
-                    <label for="doctor" class="mb-2">Doctor</label>
-                    <input type="text" name="doctor" id="doctor" class="form-control" required>
+                    <label for="dentistID" class="mb-2">Doctor</label>
+                    <select name="dentistID" id="dentistID" class="form-select">
+                        <?php
+                        if (mysqli_num_rows($resultDentist) > 0) {
+                            while ($rowDentist = mysqli_fetch_array($resultDentist)) {
+                                $selected = ($rowDentist['id'] == $row['dentistID']) ? 'selected' : '';
+                                echo "<option value=" . $rowDentist['id'] . " $selected >" . $rowDentist['id'] . " - " . $rowDentist['firstName'] . " " . $rowDentist['lastName'] . "</option>";
+                            }
+                        }
+                        ?>
+                    </select>
                 </div>
 
                 <div class="col-md-6">
                     <label for="date" class="mb-2">Date</label>
-                    <input type="date" name="date" id="date" class="form-control" required>
+                    <input type="date" name="date" id="date" class="form-control" value="<?php echo $row['date'] ?>" required>
                 </div>
 
                 <div class="col-md-6">
                     <label for="time" class="mb-2">Time</label>
-                    <input type="time" name="time" id="time" class="form-control" required>
+                    <input type="time" name="time" id="time" class="form-control" value="<?php echo $row['time'] ?>" required>
                 </div>
 
                 <div class="col-12">
                     <label for="problem" class="mb-2">Problem</label>
-                    <input type="text" name="problem" id="problem" class="form-control" required>
+                    <input type="text" name="problem" id="problem" class="form-control" value="<?php echo $row['problem'] ?>" required>
                 </div>
             </div>
 
@@ -62,4 +99,5 @@
         </div>
     </div>
 </body>
+
 </html>

@@ -136,7 +136,6 @@ include("include/config.php");
                     </tr>
                 </thead>
                 <tbody>
-
                     <?php
                     $numRow = 1;
                     if (mysqli_num_rows($result) > 0) {
@@ -150,7 +149,7 @@ include("include/config.php");
                             echo "<td>" . $row['problem'] . "</td>";
 
                             echo '<td class="text-center">';
-                            echo '<a href="edit_medicalRecord.php?id=' . $row['id'] . '&position=dentist">Edit</a>';
+                            echo '<a href="edit_medicalRecord.php?id=' . $row['id'] . '">Edit</a>';
                             // echo '&nbsp;&nbsp;';
                             // echo '<a href="staff_detail.php?id=' . $row['id'] . '&position=dentist">View</a>';
                             echo '&nbsp;&nbsp;';
@@ -161,7 +160,6 @@ include("include/config.php");
                         }
                     }
                     ?>
-
                 </tbody>
             </table>
 
