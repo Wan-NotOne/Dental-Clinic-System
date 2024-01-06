@@ -75,6 +75,19 @@ CREATE TABLE schedule (
     FOREIGN KEY (nurseID) REFERENCES nurse(id)
 );
 
+CREATE TABLE medicalRecord (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+    dentistID INT,
+    patientID,
+    date DATE,
+    time TIME,
+    problem TEXT,
+    FOREIGN KEY (dentistID) REFERENCES dentist(id),
+    FOREIGN KEY (patientID) REFERENCES patient(id)
+);
+
+
+
 
 
 

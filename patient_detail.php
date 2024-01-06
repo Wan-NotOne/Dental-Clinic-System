@@ -103,11 +103,31 @@ include("include/config.php");
             </div>
         </div>
 
+
+        <?php
+
+        error_reporting(E_ALL);
+        ini_set('display_errors', 1);
+
+        if (isset($_SESSION['UID']) && !empty($_SESSION['UID'])) {
+            // $sql = "SELECT * FROM medicalRecord WHERE patientID='" . $_GET['id'] . "'";
+
+            $sql = "SELECT m.id, m.dentistID, m.date, m.time, m.problem,
+            CONCAT(d.firstName, ' ', d.lastName) AS dentistName
+        FROM medicalRecord m
+        JOIN dentist d ON m.dentistID = d.id
+        WHERE m.patientID=" . $_GET['id'];
+
+            $result = mysqli_query($conn, $sql);
+        }
+        ?>
+
         <div class="col-12">
-            <!-- <h3 class="mb-4">Medical Records</h3>
+            <h3 class="mb-4">Medical Records</h3>
             <table class="table table-bordered mb-5">
                 <thead>
                     <tr>
+                        <th scope="col" class="text-center">No</th>
                         <th scope="col" class="text-center">Dentist</th>
                         <th scope="col" class="text-center">Date</th>
                         <th scope="col" class="text-center">Time</th>
@@ -116,78 +136,41 @@ include("include/config.php");
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Dentist 1</td>
-                        <td>Decmber 30,2023 </td>
-                        <td>10:00 AM</td>
-                        <td>Fever</td>
-                        <td class="text-center">
-                            <a href="./edit_medicalRecord.html">Edit</a>
-                            &nbsp;&nbsp;
-                            <a href="#" class="text-danger">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Dentist 1</td>
-                        <td>Decmber 30,2023 </td>
-                        <td>10:00 AM</td>
-                        <td>Fever</td>
-                        <td class="text-center">
-                            <a href="#">Edit</a>
-                            &nbsp;&nbsp;
-                            <a href="#" class="text-danger">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Dentist 1</td>
-                        <td>Decmber 30,2023 </td>
-                        <td>10:00 AM</td>
-                        <td>Fever</td>
-                        <td class="text-center">
-                            <a href="#">Edit</a>
-                            &nbsp;&nbsp;
-                            <a href="#" class="text-danger">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Dentist 1</td>
-                        <td>Decmber 30,2023 </td>
-                        <td>10:00 AM</td>
-                        <td>Fever</td>
-                        <td class="text-center">
-                            <a href="#">Edit</a>
-                            &nbsp;&nbsp;
-                            <a href="#" class="text-danger">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Dentist 1</td>
-                        <td>Decmber 30,2023 </td>
-                        <td>10:00 AM</td>
-                        <td>Fever</td>
-                        <td class="text-center">
-                            <a href="#">Edit</a>
-                            &nbsp;&nbsp;
-                            <a href="#" class="text-danger">Delete</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Dentist 1</td>
-                        <td>Decmber 30,2023 </td>
-                        <td>10:00 AM</td>
-                        <td>Fever</td>
-                        <td class="text-center">
-                            <a href="#">Edit</a>
-                            &nbsp;&nbsp;
-                            <a href="#" class="text-danger">Delete</a>
-                        </td>
-                    </tr>
+
+                    <?php
+                    $numRow = 1;
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_array($result)) {
+                            echo "<tr>";
+                            echo "<td>$numRow</td>";
+
+                            echo "<td>" . $row['dentistName'] . "</td>";
+                            echo "<td>" . $row['date'] . "</td>";
+                            echo "<td>" . $row['time'] . "</td>";
+                            echo "<td>" . $row['problem'] . "</td>";
+
+                            echo '<td class="text-center">';
+                            echo '<a href="edit_medicalRecord.php?id=' . $row['id'] . '&position=dentist">Edit</a>';
+                            // echo '&nbsp;&nbsp;';
+                            // echo '<a href="staff_detail.php?id=' . $row['id'] . '&position=dentist">View</a>';
+                            echo '&nbsp;&nbsp;';
+                            echo '<a href="./include/delete_medicalRecord_action.php?id=' . $row['id'] . '&position=dentist" class="text-danger" onClick="return confirm(\'Delete?\');">Delete</a>';
+                            echo '</td>';
+                            echo '</tr>';
+                            $numRow = $numRow + 1;
+                        }
+                    }
+                    ?>
+
                 </tbody>
-            </table> -->
+            </table>
 
             <div class="col-12 text-center">
                 <?php
                 echo '<a href="edit_patient.php?id=' . $_GET['id'] . '"class="btn btn-primary mb-3">Edit Patient</a>';
+                ?>
+                <?php
+                echo '<a href="add_medicalRecord.php?id=' . $_GET['id'] . '"class="btn btn-primary mb-3">Add Medical Record</a>';
                 ?>
                 <a href="./staff.php" class="btn btn-danger mb-3">Back</a>
             </div>
