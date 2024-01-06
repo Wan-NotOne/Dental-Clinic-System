@@ -153,7 +153,7 @@ include("include/config.php");
                             // echo '&nbsp;&nbsp;';
                             // echo '<a href="staff_detail.php?id=' . $row['id'] . '&position=dentist">View</a>';
                             echo '&nbsp;&nbsp;';
-                            echo '<a href="./include/delete_medicalRecord_action.php?id=' . $row['id'] . '&position=dentist" class="text-danger" onClick="return confirm(\'Delete?\');">Delete</a>';
+                            echo '<a href="./include/delete_medicalRecord_action.php?id=' . $row['id'] . '" class="text-danger" onClick="return confirm(\'Delete?\');">Delete</a>';
                             echo '</td>';
                             echo '</tr>';
                             $numRow = $numRow + 1;

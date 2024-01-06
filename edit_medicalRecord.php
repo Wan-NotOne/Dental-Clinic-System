@@ -95,7 +95,7 @@ include("include/config.php");
         </form>
 
         <div class="col-12 text-center">
-            <a href="./patient_detail.html" class="btn btn-danger">Back</a>
+            <a href="./staff.php" class="btn btn-danger">Back</a>
         </div>
     </div>
 </body>
