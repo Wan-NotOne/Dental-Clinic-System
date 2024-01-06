@@ -104,7 +104,7 @@ include("include/config.php");
         </div>
 
         <div class="col-12">
-            <h3 class="mb-4">Medical Records</h3>
+            <!-- <h3 class="mb-4">Medical Records</h3>
             <table class="table table-bordered mb-5">
                 <thead>
                     <tr>
@@ -183,7 +183,7 @@ include("include/config.php");
                         </td>
                     </tr>
                 </tbody>
-            </table>
+            </table> -->
 
             <div class="col-12 text-center">
                 <?php
