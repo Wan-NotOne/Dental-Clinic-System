@@ -1,0 +1,69 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+
+.navbar {
+    background-color: #7188DC;
+    height: 10vh;
+}
+
+.punch-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #333;
+}
+
+.user-info {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.user-info p {
+    margin: 10px 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.center-buttons {
+	text-align: center;
+    margin-top: 20px;
+}
+
+.btn-check-in {
+    background-color: green;
+    color: white;
+    
+}
+
+.btn-check-out {
+    background-color: red;
+    color: black;
+	margin-left:5px;
+}
